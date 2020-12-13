@@ -10,7 +10,6 @@ if (process.env.NODE_CONFIG_ONLY === 'true') {
     return process.exit();
 }
 
-const fs = require('fs');
 const log = require('npmlog');
 log.level = config.log.level;
 
