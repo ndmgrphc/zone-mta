@@ -2,9 +2,8 @@
 
 // Main application file
 // Run as 'node app.js' to start
-const path = require('path');
-process.env.NODE_CONFIG_DIR = path.join(__dirname, '.', 'config');
-const config = require('wild-config');
+
+const config = require('./tame-config');
 
 if (process.env.NODE_CONFIG_ONLY === 'true') {
     console.log(require('util').inspect(config, false, 22)); // eslint-disable-line
@@ -29,8 +28,6 @@ const plugins = require('./lib/plugins');
 const packageData = require('./package.json');
 
 process.title = config.ident + ': master process';
-
-printLogo();
 
 const smtpInterfaces = [];
 const apiServer = new APIServer();
@@ -204,26 +201,3 @@ process.on('uncaughtException', err => {
     stop(4);
 });
 
-function printLogo() {
-    let logo = fs
-        .readFileSync(__dirname + '/logo.txt', 'utf-8')
-        .replace(/^\n+|\n+$/g, '')
-        .split('\n');
-
-    let columnLength = logo.map(l => l.length).reduce((max, val) => (val > max ? val : max), 0);
-    let versionString = ' ' + packageData.name + '@' + packageData.version + ' ';
-    let versionPrefix = '-'.repeat(Math.round(columnLength / 2 - versionString.length / 2));
-    let versionSuffix = '-'.repeat(columnLength - versionPrefix.length - versionString.length);
-
-    log.info('App', ' ' + '-'.repeat(columnLength));
-    log.info('App', '');
-
-    logo.forEach(line => {
-        log.info('App', ' ' + line);
-    });
-
-    log.info('App', '');
-
-    log.info('App', ' ' + versionPrefix + versionString + versionSuffix);
-    log.info('App', '');
-}

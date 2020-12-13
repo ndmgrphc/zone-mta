@@ -11,3 +11,12 @@ config/production.*
 config/development.*
 *v8.log
 package-lock.json*
+
+# yarn
+yarn.lock
+yarn-error.log
+
+# maybe you're using this repo directly
+# rather than as a dependency in your own
+# project
+config/zonemta.js

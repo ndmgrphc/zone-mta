@@ -1,3 +1,38 @@
+# ZoneMTA Without "wild-config"
+
+ZoneMTA has a very opinionated configuration dependency called wild-config.  Do not want.
+
+This fork utilizes simple javascript module configuration.  Your zonemta config can
+now live in a module (cwd) ./config/zonemta.js which will be deep merged over 
+zone-mta's ./config/default.js
+
+Your project might look like this:
+
+```javascript
+// ./index.js
+require('zone-mta');
+```
+
+```javascript
+// ./config/zonemta.js
+module.exports = {
+    name: 'TooEasy',
+    dbs: {
+        mongo: process.env.MONGODB_URL,
+        redis: process.env.REDIS_URL
+    }
+}
+```
+
+Note: You can also just stick zonemta.js inside of ./config in this very repo
+just remember the config path relative to the current working directory.
+
+Then start as normal without any --config etc.
+
+```shell script
+node index
+```
+
 # ZoneMTA (internal code name X-699)
 
 Modern outbound SMTP relay (MTA/MSA) built on Node.js and MongoDB (queue storage). It's kind of like Postfix for outbound but is able to use multiple local IP addresses and is easily extendable using plugins that are way more flexible than milters.
